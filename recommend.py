@@ -64,7 +64,7 @@ with open('embeddings.json', 'r') as f:
 
 context = input("context: ")
 context = genai.embed_content(model="models/text-embedding-004", content=context)
-context = context['embedding']
+context = context['embedding']  
 
 book_embeddings = {}
 
