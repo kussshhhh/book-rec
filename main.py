@@ -73,7 +73,7 @@ with open(file_path, 'r', encoding='latin-1') as file:
     for i, row in enumerate(reader):
         if i <= last_processed_row:
             continue
-        if request_count >= 2000:
+        if request_count >= 3000:
             print("daily limit reached, stopping.")
             break
         arr = parse(row)
