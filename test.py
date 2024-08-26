@@ -1,48 +1,69 @@
-# Import the necessary library
-from pulp import LpMinimize, LpProblem, LpVariable, lpSum, value
+import os
 
-def solve_forecasting_problem(actual_demand, lower_bound=None, upper_bound=None):
-    # Number of periods
-    T = len(actual_demand)
+def generate_requirements():
+    requirements = [
+        "numpy",
+        "google-generativeai",
+        "json",
+        "csv",
+        "os",
+        "re",
+        "time"
+    ]
     
-    # Create a linear programming problem
-    problem = LpProblem("Forecasting_Error_Minimization", LpMinimize)
+    with open('requirements.txt', 'w') as f:
+        for req in requirements:
+            f.write(f"{req}\n")
     
-    # Decision variables
-    x = [LpVariable(f"x_{t}", lowBound=0) for t in range(T)]  # Forecasted demand
-    e_plus = [LpVariable(f"e_plus_{t}", lowBound=0) for t in range(T)]  # Positive error
-    e_minus = [LpVariable(f"e_minus_{t}", lowBound=0) for t in range(T)]  # Negative error
-    
-    # Objective function: Minimize the sum of absolute errors
-    problem += lpSum([e_plus[t] + e_minus[t] for t in range(T)]), "Total_Error"
-    
-    # Constraints for each period
-    for t in range(T):
-        # Error constraints
-        problem += actual_demand[t] - x[t] <= e_plus[t], f"Pos_Error_Constraint_{t+1}"
-        problem += x[t] - actual_demand[t] <= e_minus[t], f"Neg_Error_Constraint_{t+1}"
-        
-        # Optional bounds on forecasted demand
-        if lower_bound:
-            problem += x[t] >= lower_bound[t], f"Lower_Bound_{t+1}"
-        if upper_bound:
-            problem += x[t] <= upper_bound[t], f"Upper_Bound_{t+1}"
-    
-    # Solve the problem
-    problem.solve()
-    
-    # Extract results
-    forecasted_demand = [value(x[t]) for t in range(T)]
-    total_error = sum([value(e_plus[t]) + value(e_minus[t]) for t in range(T)])
-    
-    return forecasted_demand, total_error
+    print("requirements.txt generated successfully.")
 
-# Example usage
-actual_demand = [100, 150, 200, 250, 300]  # Actual sales data
-lower_bound = [90, 140, 180, 230, 280]     # Optional: Minimum forecast constraint
-upper_bound = [110, 160, 220, 270, 320]    # Optional: Maximum forecast constraint
+def generate_readme():
+    readme_content = """
+# Book Recommendation System
 
-forecasted_demand, total_error = solve_forecasting_problem(actual_demand, lower_bound, upper_bound)
+This project implements a book recommendation system using embeddings and cosine similarity.
 
-print("Forecasted Demand:", forecasted_demand)
-print("Total Forecasting Error:", total_error)
+## Features
+
+- Generate embeddings for books using Google's Generative AI
+- Recommend books based on user input context
+- Process and store book data from CSV file
+- Manage API request limits and progress tracking
+
+## Setup
+
+1. Clone the repository
+2. Install dependencies: `pip install -r requirements.txt`
+3. Set up your Google API key as an environment variable
+4. Prepare your book data CSV file
+
+## Usage
+
+1. Run the embedding generation script to process book data
+2. Use the recommendation system to get book suggestions based on input context
+
+## File Structure
+
+- `main.py`: Main script for book recommendations
+- `embedding_generator.py`: Script to generate and store book embeddings
+- `books.csv`: Input data file containing book information
+- `embeddings.json`: Stored book embeddings
+- `progress.json`: Tracks progress of embedding generation
+
+## Dependencies
+
+See `requirements.txt` for a full list of dependencies.
+
+## Note
+
+This project uses Google's Generative AI. Make sure you have the necessary API access and credentials.
+"""
+    
+    with open('README.md', 'w') as f:
+        f.write(readme_content.strip())
+    
+    print("README.md generated successfully.")
+
+if __name__ == "__main__":
+    generate_requirements()
+    generate_readme()

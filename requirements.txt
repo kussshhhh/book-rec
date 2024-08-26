@@ -1,0 +1,7 @@
+numpy
+google-generativeai
+json
+csv
+os
+re
+time
