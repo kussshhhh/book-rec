@@ -21,6 +21,10 @@ This project implements a book recommendation system using embeddings and cosine
 1. Run the embedding generation script to process book data
 2. Use the recommendation system to get book suggestions based on input context
 
+training looks something like this, it generates vector embeddings for the data. 
+![image](https://github.com/user-attachments/assets/247dca45-0076-41e3-863a-d88442c27d53)
+
+
 ![image](https://github.com/user-attachments/assets/7dc92f18-5131-466a-8104-e4f11c9252bf)
 
 
