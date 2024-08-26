@@ -21,6 +21,9 @@ This project implements a book recommendation system using embeddings and cosine
 1. Run the embedding generation script to process book data
 2. Use the recommendation system to get book suggestions based on input context
 
+![image](https://github.com/user-attachments/assets/7dc92f18-5131-466a-8104-e4f11c9252bf)
+
+
 ## File Structure
 
 - `main.py`: Main script for book recommendations
